@@ -4,7 +4,6 @@ import os
 import math
 import operator
 import json
-from functools import reduce
 
 
 
@@ -43,7 +42,7 @@ def count_ngram(candidate, references, n):
             # loop through the sentance consider the ngram length
             for i in range(limits):
                 ngram = ' '.join(words[i:i+n]).lower()
-                if ngram in list(ngram_d.keys()):
+                if ngram in ngram_d.keys():
                     ngram_d[ngram] += 1
                 else:
                     ngram_d[ngram] = 1
@@ -74,7 +73,7 @@ def count_ngram(candidate, references, n):
 def clip_count(cand_d, ref_ds):
     """Count the clip count for each ngram considering all references"""
     count = 0
-    for m in list(cand_d.keys()):
+    for m in cand_d.keys():
         m_w = cand_d[m]
         m_max = 0
         for ref in ref_ds:
@@ -119,7 +118,7 @@ def BLEU(candidate, references):
 if __name__ == "__main__":
     candidate, references = fetch_data(sys.argv[1], sys.argv[2])
     bleu = BLEU(candidate, references)
-    print(bleu)
+    print bleu
     out = open('bleu_out.txt', 'w')
     out.write(str(bleu))
     out.close()
